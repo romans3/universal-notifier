@@ -27,16 +27,73 @@ Trasforma semplici automazioni in un sistema di comunicazione "Smart Home" che c
 1.  Copia la cartella `universal_notifier` dentro `/config/custom_components/`.
 2.  Riavvia Home Assistant.
 
-## ⚙️ Configurazione (`configuration.yaml`)
+___
+
+**Universal Notifier** is a custom Home Assistant component that centralizes and enhances notification management.
+
+It transforms simple automations into a "Smart Home" communication system that knows the time of day, respects your sleep (Do Not Disturb - DND), greets naturally, and automatically manages the volume of voice assistants.
+
+## ✨ Key Features
+
+* **Unified Platform:** A single service (`universal_notifier.send`) for Telegram, Mobile App, Alexa, Google Home, etc.
+* **Voice vs. Text:** Automatically differentiates between messages to be read (with prefixes like `[Jarvis - 12:30]`) and messages to be spoken (clean text only).
+* **Smart Time Slots & Volume:** Set different volumes for Morning, Afternoon, Evening, and Night. The component adjusts the volume *before* speaking.
+* **Do Not Disturb (DND):** Define quiet hours for voice assistants. Critical notifications (`priority: true`) will still go through.
+* **Random Greetings:** "Good morning," "Good afternoon," etc., chosen randomly from customizable lists.
+* **Command Handling:** Native support for Companion App commands (e.g., `TTS`, `command_volume_level`) sent in "RAW" mode.
+
+## 🚀 Installation
+
+### Via HACS (Recommended)
+1.  Add this repository as a **Custom Repository** in HACS (Category: *Integration*).
+2.  Search for "Universal Notifier" and install it.
+3.  Restart Home Assistant.
+
+### Manual Installation
+1.  Copy the `universal_notifier` folder into your `/config/custom_components/` directory.
+2.  Restart Home Assistant.
+
+___
+
+## ⚙️ Configuration (`configuration.yaml`)
+
+#### Base Configuration (it uses default value in const.py file)
 
 ```yaml
 universal_notifier:
-  assistant_name: "Jarvis"       # Nome visualizzato nei messaggi di testo
-  date_format: "%H:%M"           # Formato orario
-  include_time: true             # Includere l'orario nei messaggi di testo?
+  # --- CHANNELS (Aliases) ---
+  channels:
+    # Example ALEXA (Voice - Requires entity_id for volume control)
+    alexa_living_room:
+      service: notify.alexa_media_echo_dot
+      service_data:
+        type: tts
+      entity_id: media_player.echo_dot
+      is_voice: true
 
-  # --- FASCE ORARIE E VOLUMI ---
-  # Definisci quando inizia una fascia e il volume per gli assistenti vocali (0.0 - 1.0)
+    # Example TELEGRAM (Text)
+    telegram_admin:
+      service: telegram_bot.send_message
+      target: 123456789
+      is_voice: false
+      
+    # Example MOBILE APP
+    my_android:
+      service: notify.mobile_app_samsungs21
+```
+
+#### Complete Configuration and Time Slots
+
+This is where you define the time slots, the default volume for voice devices within each slot, and DND hours.
+
+```yaml
+universal_notifier:
+  assistant_name: "Jarvis"       # Name displayed in text messages
+  date_format: "%H:%M"           # Time format
+  include_time: true             # Include the time in text message prefixes?
+
+  # --- TIME SLOTS AND VOLUMES ---
+  # Defines when a slot starts and the default volume for voice assistants (0.0 - 1.0)
   time_slots:
     morning:
       start: "06:30"
@@ -52,43 +109,37 @@ universal_notifier:
       volume: 0.15
 
   # --- DO NOT DISTURB (DND) ---
-  # In questo orario, i canali 'is_voice: true' vengono ignorati (salvo priority: true)
+  # Voice channels ('is_voice: true') are skipped during this time (unless priority: true)
   dnd:
     start: "00:00"
     end: "06:30"
-
-  # --- SALUTI PERSONALIZZATI (Opzionale) ---
+    
+  # --- CUSTOM GREETINGS (Optional) ---
   greetings:
     morning:
-      - "Buongiorno signore"
-      - "Ben svegliato"
+      - "Good morning sir"
+      - "Welcome back"
     night:
-      - "Buonanotte"
-      - "Shh, è tardi"
+      - "Good night"
+      - "Shh, it's late"
 
-  # --- CANALI (Alias) ---
+  # --- CHANNELS (Aliases) ---
   channels:
-    # Esempio TELEGRAM (Testo)
+    # Example ALEXA (Voice - Requires entity_id for volume control)
+    alexa_living_room:
+      service: notify.alexa_media_echo_dot
+      service_data:
+        type: tts
+      entity_id: media_player.echo_dot # Required for volume control
+      is_voice: true
+
+    # Example TELEGRAM (Text)
     telegram_admin:
       service: telegram_bot.send_message
       target: 123456789
       is_voice: false
-
-    # Esempio ALEXA (Voce)
-    alexa_sala:
-      service: notify.alexa_media_echo_sala
-      service_data:
-        type: tts
-      # Necessario per regolare il volume automaticamente
-      entity_id: media_player.echo_sala
-      is_voice: true
-
-    # Esempio GOOGLE (Voce)
-    google_cucina:
-      service: tts.google_translate_say
-      entity_id: media_player.nest_hub_cucina
-      is_voice: true
       
-    # Esempio MOBILE APP
-    my_phone:
-      service: notify.mobile_app_iphone_di_marco
+    # Example MOBILE APP
+    my_android:
+      service: notify.mobile_app_samsungs21
+```
