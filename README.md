@@ -1,7 +1,17 @@
 # 📢 Universal Notifier (Advanced)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
-[![Version](https://img.shields.io/github/v/release/jumping2000/universal_notifier)](https://github.com/jumping2000/universal_notifier/releases)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/jumping2000/universal_notifier?style=for-the-badge) ![GitHub Release Date](https://img.shields.io/github/release-date/jumping2000/universal_notifier?style=for-the-badge)
+[![Buy me a coffee](https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg)](https://www.buymeacoffee.com/jumping)<span style="margin-left:15px;font-size:28px !important;">Buy me a coffee</span></a>
+
+### [Support our work with a donation](https://paypal.me/hassiohelp)
+
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/jumping2000/universal_notifier)](https://github.com/jumping2000/universal_notifier/releases)
+[![GitHub Release Date](https://img.shields.io/github/release-date/jumping2000/universal_notifier)](https://github.com/jumping2000/universal_notifier/releases)
+[![Hass.io][img-hassio]][link-hassio]
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-Yes-brightgreen.svg)](https://https://github.com/jumping2000/universal_notifier/graphs/commit-activity)
+[![GitHub issues](https://img.shields.io/github/issues/jumping2000/universal_notifier)](https://github.com/jumping2000/universal_notifier/issues)
+
 
 **Universal Notifier** è un componente custom per Home Assistant che centralizza e potenzia la gestione delle notifiche.
 
