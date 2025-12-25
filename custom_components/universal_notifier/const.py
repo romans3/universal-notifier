@@ -3,43 +3,58 @@
 DOMAIN = "universal_notifier"
 CONF_CHANNELS = "channels"
 
-# Chiavi di configurazione (configuration.yaml)
+# --- Chiavi di configurazione ---
 CONF_ASSISTANT_NAME = "assistant_name"
 CONF_DATE_FORMAT = "date_format"
 CONF_GREETINGS = "greetings"
 CONF_IS_VOICE = "is_voice"
 CONF_INCLUDE_TIME = "include_time"
+CONF_TIME_SLOTS = "time_slots"
+CONF_DND = "dnd"
 
-# Override Service Call Specifici
+# --- Chiavi Service Call ---
 CONF_OVERRIDE_GREETINGS = "override_greetings"
+CONF_PRIORITY = "priority"     # <--- NUOVO
 
-# Default values
-DEFAULT_NAME = "Jarvis"
+# --- Default Values ---
+DEFAULT_NAME = "Hal9000"
 DEFAULT_DATE_FORMAT = "%H:%M:%S"
 DEFAULT_INCLUDE_TIME = True
 
-# --- DEFAULT GREETINGS (LISTE RANDOM) ---
-DEFAULT_GREETINGS = {
-    "morning": [
-        "Buongiorno",
-        "Buona giornata",
-        "Salve",
-        "Buondì",
-        "Hey, spero tu abbia dormito bene",
-    ],
-    "afternoon": [
-        "Buon pomeriggio",
-        "Ciao",
-        "Ben ritrovato",
-    ],
-    "evening": [
-        "Buonasera",
-        "Buona serata",
-        "Ben tornato a casa",
-    ],
-    "night": [
-        "Buonanotte",
-        "Sogni d'oro",
-        "È tardi",
-    ],
+# --- Default Time Slots & Volumes ---
+# Definisce quando inizia la fascia e il volume (0.0 - 1.0) di default per quella fascia
+DEFAULT_TIME_SLOTS = {
+    "morning":   {"start": "07:00", "volume": 0.35},
+    "afternoon": {"start": "12:00", "volume": 0.4},
+    "evening":   {"start": "19:00", "volume": 0.3},
+    "night":     {"start": "22:00", "volume": 0.1},
 }
+
+# --- Default DND (Do Not Disturb) ---
+# Se non configurato, il DND è disabilitato di default (start == end)
+DEFAULT_DND = {"start": "23:00", "end": "06:00"}
+
+# --- Priority Settings ---
+PRIORITY_VOLUME = 0.9  # Volume al 90% se priority=True
+
+# --- Default Greetings ---
+DEFAULT_GREETINGS = {
+    "morning": ["Buongiorno", "Ben alzato", "Salve", "Buondì"],
+    "afternoon": ["Buon pomeriggio", "Ciao", "Ben ritrovato"],
+    "evening": ["Buonasera", "Buona serata", "Ben tornato a casa"],
+    "night": ["Buonanotte", "Sogni d'oro", "È tardi"],
+}
+
+# --- Companion App Commands ---
+COMPANION_COMMANDS = [
+    "TTS",
+    "request_location_update",
+    "clear_badge",
+    "ble_write",
+    "close_notifications",
+    "clear_notification", 
+    "remove_channel",
+    "stop_tts",
+    "app_launch",
+    "update_sensors",
+]
