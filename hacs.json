@@ -2,6 +2,5 @@
   "name": "Universal Notifier",
   "content_in_root": false,
   "render_readme": true,
-  "zip_release": true,
-  "homeassistant": "2025.12.4"
+  "homeassistant": "2025.12.1"
 }
