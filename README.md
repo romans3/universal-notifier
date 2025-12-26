@@ -198,7 +198,6 @@ data:
   targets:
     - alexa_living_room
     - my_android
-  
   # Target-specific data to make the phone ring even in silent mode
   target_data:
     my_android:
