@@ -206,3 +206,15 @@ data:
       # Companion app specific option
       clickAction: /lovelace/main
 ```
+
+___
+
+## 🐛 Troubleshooting
+For debug, add in *configuration.yaml*:
+
+```yaml
+logger:
+  default: info
+  logs:
+    custom_components.universal_notifier: debug
+```
