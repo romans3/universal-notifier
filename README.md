@@ -190,3 +190,19 @@ data:
           volume: 1.0
 ```
 
+#### 3. Companion App Commands (Raw Messages)
+If the message is a recognized command (like "TTS") or starts with *command_*, greetings and prefixes are automatically stripped.
+
+```yaml
+service: universal_notifier.send
+data:
+  message: "TTS" # The component sends "TTS" RAW, without prefixes.
+  targets:
+    - my_android
+  target_data:
+    my_android:
+      tts_text: "The postman is at the door."
+      media_stream: alarm_stream_max
+      # Companion app specific option
+      clickAction: /lovelace/main
+```
