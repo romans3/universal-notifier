@@ -77,6 +77,12 @@ universal_notifier:
       entity_id: media_player.echo_dot
       is_voice: true
 
+    # Example GH (Voice - Requires entity_id for volume control)
+    google_kitchen:
+        service: tts.google_translate_say
+        entity_id: media_player.google_nest
+        is_voice: true
+
     # Example TELEGRAM (Text)
     telegram_admin:
       service: telegram_bot.send_message
