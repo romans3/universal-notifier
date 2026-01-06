@@ -7,7 +7,7 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-Yes-brightgreen.svg)](https://https://github.com/jumping2000/universal_notifier/graphs/commit-activity?style=for-the-badge)
 [![GitHub issues](https://img.shields.io/github/issues/jumping2000/universal_notifier)](https://github.com/jumping2000/universal_notifier/issues?style=for-the-badge)<br>
 --->
-[![Buy me a coffee](https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg)](https://www.buymeacoffee.com/jumping)<span style="margin-left:15px;font-size:28px !important;">Buy me a coffee</span></a>
+[![Buy me a coffee](https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg)](https://www.buymeacoffee.com/jumping)<span style="margin-left:15px;font-size:28px !important;"><b>Buy me a coffee</b></span></a>
 
 ### [Support our work with a donation](https://paypal.me/hassiohelp)
 
@@ -74,9 +74,7 @@ universal_notifier:
     # Example ALEXA (Voice - Requires entity_id for volume control)
     alexa_living_room:
       service: notify.alexa_media_echo_dot
-      service_data:
-        type: tts
-      entity_id: media_player.echo_dot
+      target: media_player.echo_dot
       is_voice: true
 
     # Example GH (Voice - Requires entity_id for volume control)
@@ -85,7 +83,6 @@ universal_notifier:
       target: tts.google_translate_it_it
       service_data:
         media_player_entity_id: media_player.kitchen
-      volume_entity: media_player.kitchen
       is_voice: true
 
     # Example TELEGRAM
@@ -95,12 +92,8 @@ universal_notifier:
       alt_services:
         photo:
           service: telegram_bot.send_photo
-          service_data:
-            target: 123456789
         video:
           service: telegram_bot.send_video
-          service_data:
-            target: 123456789
       
     # Example MOBILE APP
     my_android:
@@ -153,9 +146,7 @@ universal_notifier:
     # Example ALEXA (Voice - Requires entity_id for volume control)
     alexa_living_room:
       service: notify.alexa_media_echo_dot
-      service_data:
-        type: tts
-      entity_id: media_player.echo_dot # Required for volume control
+      target: media_player.echo_dot
       is_voice: true
 
     # Example TELEGRAM (Text)
@@ -168,6 +159,22 @@ universal_notifier:
     my_android:
       service: notify.mobile_app_samsungs21
 ```
+
+___
+
+## 🎯 Service Field Reference
+|Field|Type | Required |Description |
+|:---|:---|:---|:---|
+|message|string|Yes|The main text of the notification.|
+|targets|list|Yes|List of channel aliases defined in configuration.yaml.|
+|title|string|No|Notification| title (supported by Notify and Mobile App).|
+|data|dict|No|Generic extra data applied to ALL underlying services.|
+|target_data|dict|No|Dictionary {target_alias: {specific_data}} for targeted overrides.|
+|priority|bool|No|If true, bypasses DND and sets high volume (default 0.9).|
+|skip_greeting|bool|No|If true, does not add the time-based greeting (e.g., Good Morning).|
+|include_time|bool|No|Overrides the configuration to include/exclude the time in the visual prefix.|
+|assistant_name|string|No|Overrides the global assistant name.|
+|override_greetings|dict|No|Overrides the default greetings for this single call.|
 
 ___
 
@@ -197,15 +204,8 @@ data:
   skip_greeting: true   # <--- Avoids greetings like "Good night" during an alarm
   targets:
     - alexa_living_room
-    - my_android
-  # Target-specific data to make the phone ring even in silent mode
-  target_data:
-    my_android:
-      push:
-        sound:
-          name: "default"
-          critical: 1
-          volume: 1.0
+    - telegram_bot_media
+    - gh_kitchen
 ```
 
 #### 3. Companion App Commands (Raw Messages)
@@ -234,16 +234,22 @@ data:
   message: "Something happened at home!"
   targets: 
     - my_phone
-    - telegram_gianpi
-    - gh_ingresso
+    - telegram_first
+    - alexa_living_room
+    - gh_kitchen
   target_data:
     my_phone:
       image: "https://www.home-assistant.io/images/default-social.png"
       color: red
       channel: "Motion"
-    telegram_gianpi:
+    telegram_first:
       type: photo
       url: "https://www.home-assistant.io/images/default-social.png"
+    alexa_living_room:
+      type: announce
+      volume: 0.8
+    gh_kitchen:
+      volume: 0.5
 ```
 ___
 
