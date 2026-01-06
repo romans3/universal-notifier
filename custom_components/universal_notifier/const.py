@@ -19,7 +19,6 @@ CONF_SERVICE_DATA = "service_data"
 CONF_TARGET = "target"
 CONF_ENTITY_ID = "entity_id"
 CONF_IS_VOICE = "is_voice"
-CONF_VOLUME_ENTITY = "volume_entity"
 
 # -- per gestione Telegram Photo and Video ---
 CONF_ALT_SERVICES = "alt_services"
