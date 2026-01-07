@@ -25,6 +25,7 @@ Trasforma semplici automazioni in un sistema di comunicazione "Smart Home" che c
 * **Saluti Casuali:** "Buongiorno", "Buon pomeriggio", ecc., scelti casualmente da liste personalizzabili.
 * **Gestione Comandi:** Supporto nativo per comandi Companion App (es. `TTS`, `command_volume_level`) inviati in modalità "RAW".
 
+<br>
 
 **Universal Notifier** is a custom Home Assistant component that centralizes and enhances notification management.
 
@@ -203,7 +204,7 @@ universal_notifier:
 |skip_greeting|bool|No|If true, does not add the time-based greeting (e.g., Good Morning).|
 |include_time|bool|No|Overrides the configuration to include/exclude the time in the visual prefix.|
 |assistant_name|string|No|Overrides the global assistant name.|
-|override_greetings|dict|No|Overrides the default greetings for this single call.|
+|override_greetings|dict|No|Overrides the default greetings.|
 
 </details>
 
