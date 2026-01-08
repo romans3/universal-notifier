@@ -205,8 +205,9 @@ universal_notifier:
 |priority|bool|No|If true, bypasses DND and sets high volume (default 0.9).|
 |skip_greeting|bool|No|If true, does not add the time-based greeting (e.g., Good Morning).|
 |include_time|bool|No|Overrides the configuration to include/exclude the time in the visual prefix.|
+|bold_prefix|bool|No|Overrides the configuration to have assistant name and time in bold|
 |assistant_name|string|No|Overrides the global assistant name.|
-|override_greetings|dict|No|Overrides the default greetings.|
+|override_greetings|dict|No|Overrides the default greetings.| 
 
 </details>
 
