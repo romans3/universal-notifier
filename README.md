@@ -19,6 +19,7 @@ Trasforma semplici automazioni in un sistema di comunicazione "Smart Home" che c
 ## ✨ Caratteristiche Principali
 
 * **Piattaforma Unificata:** Un solo servizio (`universal_notifier.send`) per Telegram, App Mobile, Alexa, Google Home, ecc.
+* **Notifiche personalizzate** a più destinatari (ad esempio, notifica di allarme sia a Telegram che ad Alexa)
 * **Voce vs Testo:** Distingue automaticamente tra messaggi da leggere (con prefissi `[Jarvis - 12:30]`) e messaggi da pronunciare (solo testo pulito).
 * **Time Slots & Volume Smart:** Imposta volumi diversi per Mattina, Pomeriggio, Sera e Notte. Il componente regola il volume *prima* di parlare.
 * **Do Not Disturb (DND):** Definisci un orario di silenzio per gli assistenti vocali. Le notifiche critiche (`priority: true`) passano comunque.
@@ -34,6 +35,7 @@ It transforms simple automations into a "Smart Home" communication system that k
 ## ✨ Key Features
 
 * **Unified Platform:** A single service (`universal_notifier.send`) for Telegram, Mobile App, Alexa, Google Home, etc.
+* **Personalized notifications** to several targets (i.e. alarm notification to both Telegram and Alexa)
 * **Voice vs. Text:** Automatically differentiates between messages to be read (with prefixes like `[Jarvis - 12:30]`) and messages to be spoken (clean text only).
 * **Smart Time Slots & Volume:** Set different volumes for Morning, Afternoon, Evening, and Night. The component adjusts the volume *before* speaking.
 * **Do Not Disturb (DND):** Define quiet hours for voice assistants. Critical notifications (`priority: true`) will still go through.
