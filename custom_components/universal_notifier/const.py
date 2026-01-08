@@ -2,32 +2,41 @@
 
 DOMAIN = "universal_notifier"
 
-# --- Chiavi Configurazione --- 
+# --- Chiavi di Configurazione (YAML) ---
 CONF_CHANNELS = "channels"
 CONF_ASSISTANT_NAME = "assistant_name"
 CONF_DATE_FORMAT = "date_format"
-CONF_INCLUDE_TIME = "include_time"
 CONF_GREETINGS = "greetings"
 CONF_TIME_SLOTS = "time_slots"
 CONF_DND = "dnd"
-CONF_OVERRIDE_GREETINGS = "override_greetings"
-CONF_PRIORITY = "priority"
 
-# --- Chiavi di configurazione per TTS GOOGLE--- 
+# --- Chiavi Parametri Servizio (Service Call) ---
+# Usiamo queste costanti sia nello schema che nel codice
+CONF_MESSAGE = "message"
+CONF_TITLE = "title"
+CONF_TARGETS = "targets"
+CONF_DATA = "data"          # Dati extra generici
+CONF_TARGET_DATA = "target_data"
+CONF_PRIORITY = "priority"
+CONF_SKIP_GREETING = "skip_greeting"
+CONF_INCLUDE_TIME = "include_time"
+CONF_OVERRIDE_GREETINGS = "override_greetings"
+CONF_BOLD_PREFIX = "bold_prefix"
+
+# --- Chiavi Canale Singolo ---
 CONF_SERVICE = "service"
 CONF_SERVICE_DATA = "service_data"
 CONF_TARGET = "target"
 CONF_ENTITY_ID = "entity_id"
 CONF_IS_VOICE = "is_voice"
-
-# -- per gestione Telegram Photo and Video ---
 CONF_ALT_SERVICES = "alt_services"
 CONF_TYPE = "type"
 
-# --- Default Values ---
+# --- Defaults ---
 DEFAULT_NAME = "Hal9000"
 DEFAULT_DATE_FORMAT = "%H:%M:%S"
 DEFAULT_INCLUDE_TIME = True
+DEFAULT_BOLD_PREFIX = True
 
 # --- Default Time Slots & Volumes ---
 # Definisce quando inizia la fascia e il volume (0.0 - 1.0) di default per quella fascia
@@ -66,3 +75,4 @@ COMPANION_COMMANDS = [
     "app_launch",
     "update_sensors",
 ]
+######################################################
