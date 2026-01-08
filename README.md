@@ -1,4 +1,5 @@
 # 📢 Universal Notifier
+a new release from an idea of @caiosweet and @jumping2000
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jumping2000/universal_notifier?style=for-the-badge) 
@@ -26,7 +27,7 @@ Trasforma semplici automazioni in un sistema di comunicazione "Smart Home" che c
 * **Saluti Casuali:** "Buongiorno", "Buon pomeriggio", ecc., scelti casualmente da liste personalizzabili.
 * **Gestione Comandi:** Supporto nativo per comandi Companion App (es. `TTS`, `command_volume_level`) inviati in modalità "RAW".
 
-<br>
+___
 
 **Universal Notifier** is a custom Home Assistant component that centralizes and enhances notification management.
 
