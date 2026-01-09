@@ -330,7 +330,8 @@ async def async_setup(hass: HomeAssistant, config: dict):
             # G. Gestione Entity ID del Provider (Fix CONF_TARGET)
             # Se la configurazione del canale ha 'target' (es. tts.google),
             # lo iniettiamo nel payload come 'entity_id' (o come richiesto dal servizio).
-            if CONF_TARGET in channel_conf:
+            # NON aggiungere entity_id ai servizi notify.* (Alexa, Mobile App, Telegram)
+            if CONF_TARGET in channel_conf and not full_service_name.startswith("notify."):
                 final_payload[CONF_ENTITY_ID] = channel_conf[CONF_TARGET]
 
             # H. Chiamata al Servizio
