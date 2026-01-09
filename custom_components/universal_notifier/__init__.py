@@ -273,21 +273,28 @@ async def async_setup(hass: HomeAssistant, config: dict):
                     clean_msg = sanitize_text_visual(str(target_raw_message), parse_mode)
                     clean_greet = sanitize_text_visual(current_greeting, parse_mode)
 
-                    # 2. Applichiamo il Bolding se richiesto
-                    if use_bold_prefix:
+                    # NON applicare bold a name/time in markdown
+                    if use_bold_prefix and parse_mode and "html" in parse_mode.lower():
                         clean_name = apply_formatting(clean_name, parse_mode, "bold")
                         clean_time = apply_formatting(clean_time, parse_mode, "bold")
 
-                    # 3. Assemblaggio Prefisso
-                    # Formato: [Nome - 12:00] oppure [Nome]
-                    prefix_content = clean_name
-                    if clean_time:
-                        prefix_content += f" - {clean_time}"
-                    
-                    # Parentesi restano fuori dal grassetto
-                    clean_prefix = f"[{prefix_content}] " 
+                    # Prefisso RAW senza markup (Markdown non deve vedere asterischi dentro [])
+                    raw_prefix = f"{raw_name}"
+                    if raw_time_str:
+                        raw_prefix += f" - {raw_time_str}"
 
-                    greeting_part = f"{clean_greet}. " if clean_greet else ""
+                    # Markdown: grassetto SOLO sul prefisso intero
+                    if parse_mode and "markdown" in parse_mode.lower():
+                        clean_prefix = f"*[{raw_prefix}]* "
+
+                    # HTML: grassetto sul prefisso intero
+                    elif parse_mode and "html" in parse_mode.lower():
+                        clean_prefix = f"<b>[{raw_prefix}]</b> "
+
+                    # Nessun parse_mode
+                    else:
+                        clean_prefix = f"[{raw_prefix}] "
+
                     # ============================
                     # Prefisso + Titolo Inline
                     # ============================
@@ -312,10 +319,7 @@ async def async_setup(hass: HomeAssistant, config: dict):
                     # Newline dopo prefisso+titolo
                     # ============================
 
-                    if parse_mode and "html" in parse_mode.lower():
-                        newline = "<br>"
-                    else:
-                        newline = "\n"
+                    newline = "\n"
 
                     # ============================
                     # Messaggio finale
@@ -358,6 +362,22 @@ async def async_setup(hass: HomeAssistant, config: dict):
             # Non inviare il titolo ai canali che lo rifiutano (es. Telegram)
             if title and not specific_data.get("drop_title"):
                 final_payload[CONF_TITLE] = title
+
+            # F3. Gestione parse_mode per servizi Telegram
+            pm = final_payload.pop("parse_mode", None)
+
+            if pm and "telegram" in full_service_name:
+                # Caso telegram_bot.send_message → parse_mode al root
+                if "telegram_bot" in full_service_name:
+                    final_payload["parse_mode"] = pm
+
+                # Caso notify.telegram → parse_mode dentro data:
+                else:
+                    data_block = final_payload.get("data", {})
+                    if not isinstance(data_block, dict):
+                        data_block = {}
+                    data_block["parse_mode"] = pm
+                    final_payload["data"] = data_block
 
             # F2. Rimozione entity_id per servizi notify.alexa_media (schema non lo accetta)
             if full_service_name.startswith("notify.alexa_media"):
