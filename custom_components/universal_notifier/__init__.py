@@ -432,25 +432,51 @@ async def async_setup(hass: HomeAssistant, config: dict):
 
             # Inseriamo il messaggio finale
             final_payload[CONF_MESSAGE] = final_msg
-            # Non inviare il titolo ai canali che lo rifiutano (es. Telegram)
+            # ============================================================
+            # TELEGRAM ADVANCED SUPPORT
+            # ============================================================
+            if "telegram" in full_service_name:
+
+                # notification_sound
+                notif_sound = specific_data.get("notification_sound")
+                if notif_sound:
+                    final_payload["notification_sound"] = notif_sound
+
+                # silent message
+                if specific_data.get("silent"):
+                    final_payload["disable_notification"] = True
+
+                # disable web preview
+                if specific_data.get("disable_web_preview"):
+                    final_payload["disable_web_page_preview"] = True
+
+                # reply to message
+                reply_id = specific_data.get("reply_to")
+                if reply_id:
+                    final_payload["reply_to_message_id"] = reply_id
+
+                # protect content
+                if specific_data.get("protect_content"):
+                    final_payload["protect_content"] = True
+
+                # inline keyboard
+                keyboard = specific_data.get("inline_keyboard")
+                if keyboard:
+                    final_payload["reply_markup"] = {"inline_keyboard": keyboard}
+
+                # force reply
+                if specific_data.get("force_reply"):
+                    final_payload["reply_markup"] = {"force_reply": True}
+            # Non inviare il titolo ai canali TTS o ai servizi notify.* che non lo accettano
             if title and not specific_data.get("drop_title"):
-                final_payload[CONF_TITLE] = title
+                if not is_voice_channel and not full_service_name.startswith("tts."):
+                    final_payload[CONF_TITLE] = title
 
             # F3. Gestione parse_mode per servizi Telegram
             pm = final_payload.pop("parse_mode", None)
 
             if pm and "telegram" in full_service_name:
-                # Caso telegram_bot.send_message → parse_mode al root
-                if "telegram_bot" in full_service_name:
-                    final_payload["parse_mode"] = pm
-
-                # Caso notify.telegram → parse_mode dentro data:
-                else:
-                    data_block = final_payload.get("data", {})
-                    if not isinstance(data_block, dict):
-                        data_block = {}
-                    data_block["parse_mode"] = pm
-                    final_payload["data"] = data_block
+                final_payload["parse_mode"] = pm
 
             # F2. Rimozione entity_id per servizi notify.alexa_media (schema non lo accetta)
             if full_service_name.startswith("notify.alexa_media"):
@@ -462,6 +488,54 @@ async def async_setup(hass: HomeAssistant, config: dict):
             # NON aggiungere entity_id ai servizi notify.* (Alexa, Mobile App, Telegram)
             if CONF_TARGET in channel_conf and not full_service_name.startswith("notify."):
                 final_payload[CONF_ENTITY_ID] = channel_conf[CONF_TARGET]
+
+            # Supporto caption + parse_mode per media Telegram
+            if "telegram_bot" in full_service_name and "caption" in final_payload:
+                if pm:
+                    final_payload["parse_mode"] = pm
+
+            # ============================================================
+            # FILTRO PAYLOAD PER TELEGRAM (compatibilità HA 2026.2.3)
+            # ============================================================
+
+            if full_service_name.startswith("telegram_bot."):
+
+                allowed_keys = {
+                    "telegram_bot.send_message": {
+                        "message", "parse_mode", "disable_notification",
+                        "disable_web_page_preview", "reply_to_message_id",
+                        "protect_content", "reply_markup"
+                    },
+                    "telegram_bot.send_photo": {
+                        "url", "caption", "parse_mode", "disable_notification",
+                        "reply_to_message_id", "protect_content", "reply_markup"
+                    },
+                    "telegram_bot.send_video": {
+                        "url", "caption", "parse_mode", "disable_notification",
+                        "reply_to_message_id", "protect_content", "reply_markup"
+                    },
+                    "telegram_bot.send_document": {
+                        "url", "caption", "parse_mode", "disable_notification",
+                        "reply_to_message_id", "protect_content", "reply_markup"
+                    },
+                    "telegram_bot.send_audio": {
+                        "url", "caption", "parse_mode", "disable_notification",
+                        "reply_to_message_id", "protect_content", "reply_markup"
+                    },
+                    "telegram_bot.send_voice": {
+                        "url", "caption", "parse_mode", "disable_notification",
+                        "reply_to_message_id", "protect_content", "reply_markup"
+                    },
+                    "telegram_bot.send_animation": {
+                        "url", "caption", "parse_mode", "disable_notification",
+                        "reply_to_message_id", "protect_content", "reply_markup"
+                    },
+                }
+
+                allowed = allowed_keys.get(full_service_name, set())
+
+                # Rimuove tutte le chiavi non ammesse
+                final_payload = {k: v for k, v in final_payload.items() if k in allowed}
 
             # H. Chiamata al Servizio
             domain_service = full_service_name.split(".")

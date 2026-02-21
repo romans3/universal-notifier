@@ -3,10 +3,10 @@
     "name": "Universal Notifier",
     "codeowners": ["@jumping2000"],
     "dependencies": [],
-    "documentation": "https://github.com/jumping2000/universal_notifier",
+    "documentation": "https://github.com/romans3/universal_notifier",
     "integration_type": "service",
     "iot_class": "local_push",
-    "issue_tracker": "https://github.com/jumping2000/universal_notifier/issues",
+    "issue_tracker": "https://github.com/romans3/universal_notifier/issues",
     "requirements": [],
-    "version": "0.3.1"
+    "version": "1.0.1"
 }
