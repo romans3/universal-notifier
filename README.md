@@ -1,6 +1,12 @@
 # 📢 Universal Notifier
 a new release from an idea of @caiosweet and @jumping2000
-
+-
+this is a Fork by @romans3 
+-
+version with TELEGRAM ADVANCED SUPPORT and FILTER PAYLOAD 
+-
+(compatibility HA 2026.2.3)
+-
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jumping2000/universal_notifier?style=for-the-badge) 
 ![GitHub Release Date](https://img.shields.io/github/release-date/jumping2000/universal_notifier?style=for-the-badge)
